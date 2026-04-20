@@ -1,14 +1,7 @@
-/**
- * Centralised API client with automatic token management.
- *
- * - Injects Authorization header on authenticated requests
- * - Intercepts 401 responses and silently refreshes the access token
- * - Retries the original request after refresh
- * - Redirects to login if refresh fails
- */
-
 let accessToken: string | null = null;
 let refreshPromise: Promise<string | null> | null = null;
+
+const BASE_URL = import.meta.env.VITE_API_URL ?? "";
 
 export function setAccessToken(token: string | null) {
   accessToken = token;
@@ -20,7 +13,7 @@ export function getAccessToken(): string | null {
 
 async function refreshAccessToken(): Promise<string | null> {
   try {
-    const res = await fetch("/api/auth/refresh", {
+    const res = await fetch(`${BASE_URL}/api/auth/refresh`, {
       method: "POST",
       credentials: "include", // Send httpOnly cookie
     });
@@ -39,10 +32,7 @@ async function refreshAccessToken(): Promise<string | null> {
   }
 }
 
-/**
- * Ensures only one refresh request is in flight at a time.
- * Multiple 401 responses will all await the same refresh promise.
- */
+
 function getRefreshPromise(): Promise<string | null> {
   if (!refreshPromise) {
     refreshPromise = refreshAccessToken().finally(() => {
@@ -73,7 +63,7 @@ export async function apiFetch(
     headers.set("Content-Type", "application/json");
   }
 
-  const response = await fetch(url, {
+  const response = await fetch(`${BASE_URL}${url}`, {
     ...fetchOptions,
     headers,
     credentials: "include", // Always send cookies for refresh token
@@ -86,7 +76,7 @@ export async function apiFetch(
     if (newToken) {
       // Retry the original request with the new token
       headers.set("Authorization", `Bearer ${newToken}`);
-      return fetch(url, {
+      return fetch(`${BASE_URL}${url}`, {
         ...fetchOptions,
         headers,
         credentials: "include",
