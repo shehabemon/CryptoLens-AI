@@ -1,7 +1,7 @@
 let accessToken: string | null = null;
 let refreshPromise: Promise<string | null> | null = null;
 
-const BASE_URL = import.meta.env.VITE_API_URL ?? "";
+const BASE_URL = (import.meta.env.VITE_API_URL ?? "").replace(/\/$/, "");
 
 export function setAccessToken(token: string | null) {
   accessToken = token;
