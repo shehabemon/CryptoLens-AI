@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ─── Backgrounds ─── */
+    --background: 220 14% 97%;        /* #f8f9fb */
+    --foreground: 222 47% 11%;        /* #0f172a */
+
+    --card: 0 0% 100%;                /* #ffffff */
+    --card-foreground: 222 47% 11%;   /* #0f172a */
+
+    --popover: 0 0% 100%;             /* #ffffff */
+    --popover-foreground: 222 47% 11%;/* #0f172a */
+
+    /* ─── Blue accent ─── */
+    --primary: 221 83% 53%;           /* #2563eb */
+    --primary-foreground: 0 0% 100%;  /* white on blue */
+
+    --secondary: 220 14% 96%;         /* #f1f3f6 */
+    --secondary-foreground: 215 16% 47%;/* #64748b */
+
+    --muted: 220 14% 96%;             /* #f1f3f6 */
+    --muted-foreground: 215 16% 47%;  /* #64748b */
+
+    --accent: 221 83% 53%;            /* #2563eb */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;         /* #dc2626 */
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 72% 29%;           /* #16a34a */
+    --success-foreground: 0 0% 100%;
+
+    /* ─── Borders ─── */
+    --border: 220 13% 90%;            /* #e2e5ea */
+    --input: 220 14% 96%;             /* #f1f3f6 */
+    --ring: 221 83% 53%;              /* blue focus ring */
+
+    /* ─── Radius — modern fintech ─── */
+    --radius: 12px;
+
+    /* ─── Sidebar ─── */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 215 16% 47%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 220 13% 90%;
+    --sidebar-ring: 221 83% 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* ─── Focus-visible — WCAG 2.1 AA ─── */
+  :focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+
+  /* Remove inner focus ring on buttons that have focus-visible */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* ─── Scrollbar hide utility ─── */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@layer utilities {
+  /* ─── Gain / Loss text ─── */
+  .text-gain {
+    color: #16a34a;
+  }
+  .text-loss {
+    color: #dc2626;
+  }
+
+  /* ─── Monospace for data ─── */
+  .font-mono-data {
+    font-family: 'Berkeley Mono', 'JetBrains Mono', 'Fira Code', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ─── Section headers ─── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  /* ─── Screen-reader only utility ─── */
+  .sr-only-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* ─── Animations ─── */
+
+/* Fade slide in (boot sequence, etc.) */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% {
+    background-color: #f1f3f6;
+  }
+  50% {
+    background-color: #e8eaed;
+  }
+  100% {
+    background-color: #f1f3f6;
+  }
+}
+
+.skeleton-shimmer {
+  background-color: #f1f3f6;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* ─── Page fade transition ─── */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-fade-in {
+  animation: pageFadeIn 0.2s ease-out forwards;
+}
+
+/* ─── Price flash animations ─── */
+@keyframes priceFlashUp {
+  0% { background-color: transparent; }
+  15% { background-color: rgba(22, 163, 74, 0.1); }
+  100% { background-color: transparent; }
+}
+
+@keyframes priceFlashDown {
+  0% { background-color: transparent; }
+  15% { background-color: rgba(220, 38, 38, 0.1); }
+  100% { background-color: transparent; }
+}
+
+.price-flash-up {
+  animation: priceFlashUp 0.7s ease-out;
+}
+
+.price-flash-down {
+  animation: priceFlashDown 0.7s ease-out;
+}
+
+/* ─── Star pop animation ─── */
+@keyframes starPop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.star-pop {
+  animation: starPop 0.35s ease-out;
+}
