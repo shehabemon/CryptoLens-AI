@@ -1,7 +1,8 @@
+import { apiFetch } from "@/lib/api/client";
 import type { Asset } from "@/types/market";
 
 export async function fetchTopCryptos(): Promise<Asset[]> {
-  const res = await fetch("/api/market/top");
+  const res = await apiFetch("/api/market/top");
 
   if (!res.ok) {
     throw new Error(`Market API error: ${res.status}`);
@@ -22,7 +23,7 @@ export async function fetchMarketChart(
   coinId: string,
   days: TimeRange
 ): Promise<MarketChartPoint[]> {
-  const res = await fetch(`/api/market/chart/${coinId}?days=${days}`);
+  const res = await apiFetch(`/api/market/chart/${coinId}?days=${days}`);
 
   if (!res.ok) {
     throw new Error(`Market chart API error: ${res.status}`);

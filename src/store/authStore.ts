@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { apiJson, setAccessToken } from "@/lib/api/client";
+import { apiJson, apiFetch, setAccessToken } from "@/lib/api/client";
 import { usePortfolioStore } from "@/store/portfolioStore";
 import { useWatchlistStore } from "@/store/watchlistStore";
 
@@ -62,7 +62,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     try {
-      await fetch("/api/auth/logout", {
+      await apiFetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -85,7 +85,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   initialize: async () => {
     try {
       // Try to refresh the token
-      const res = await fetch("/api/auth/refresh", {
+      const res = await apiFetch("/api/auth/refresh", {
         method: "POST",
         credentials: "include",
       });
@@ -95,7 +95,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         setAccessToken(accessToken);
 
         // Fetch user profile
-        const profileRes = await fetch("/api/auth/me", {
+        const profileRes = await apiFetch("/api/auth/me", {
           headers: { Authorization: `Bearer ${accessToken}` },
           credentials: "include",
         });

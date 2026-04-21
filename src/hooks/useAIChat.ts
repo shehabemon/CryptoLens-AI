@@ -2,7 +2,7 @@ import { useCallback, useRef } from "react";
 import { useAIStore, type AIChatMessage } from "@/store/aiStore";
 import { usePortfolio } from "@/hooks/usePortfolio";
 import { buildPortfolioContext } from "@/lib/ai/contextBuilder";
-import { getAccessToken } from "@/lib/api/client";
+import { getAccessToken, apiFetch } from "@/lib/api/client";
 
 export function useAIChat() {
   const {
@@ -61,7 +61,7 @@ export function useAIChat() {
           headers["Authorization"] = `Bearer ${token}`;
         }
 
-        const response = await fetch("/api/ai", {
+        const response = await apiFetch("/api/ai", {
           method: "POST",
           headers,
           body: JSON.stringify({
