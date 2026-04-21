@@ -40,15 +40,11 @@ export default function Register() {
   const navigate = useNavigate();
   const registerUser = useAuthStore((s) => s.register);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const isLoading = useAuthStore((s) => s.isLoading);
   const [serverError, setServerError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
 
   const {
     register,
@@ -61,6 +57,19 @@ export default function Register() {
   });
 
   const watchedPassword = watch("password", "");
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#f8f9fb]">
+        <div className="w-8 h-8 border-2 border-[#2563eb] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
 
   async function onSubmit(data: RegisterFormData) {
     setServerError(null);

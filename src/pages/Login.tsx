@@ -38,6 +38,13 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#f8f9fb]">
+        <div className="w-8 h-8 border-2 border-[#2563eb] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   // Already authenticated — redirect to dashboard
   if (isAuthenticated) {
