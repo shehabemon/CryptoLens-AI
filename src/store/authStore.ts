@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     // Clear stale data from any previous user session
     usePortfolioStore.getState().clearHoldings();
     useWatchlistStore.getState().clearWatchlist();
-    set({ user: data.user, isAuthenticated: true });
+    set({ user: data.user, isAuthenticated: true, isLoading: false });
   },
 
   register: async (email, password, name?) => {
@@ -57,7 +57,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     // Clear stale data from any previous user session
     usePortfolioStore.getState().clearHoldings();
     useWatchlistStore.getState().clearWatchlist();
-    set({ user: data.user, isAuthenticated: true });
+    set({ user: data.user, isAuthenticated: true, isLoading: false });
   },
 
   logout: async () => {
@@ -83,6 +83,11 @@ export const useAuthStore = create<AuthState>((set) => ({
    * without seeing a login screen.
    */
   initialize: async () => {
+    // Already authenticated (e.g. just logged in before this resolved) — do nothing.
+    if (useAuthStore.getState().isAuthenticated) {
+      set({ isLoading: false });
+      return;
+    }
     try {
       // Try to refresh the token
       const res = await apiFetch("/api/auth/refresh", {

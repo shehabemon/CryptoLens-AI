@@ -40,20 +40,15 @@ export default function Register() {
   const navigate = useNavigate();
   const registerUser = useAuthStore((s) => s.register);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const isLoading = useAuthStore((s) => s.isLoading);
   const [serverError, setServerError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Wait for the session check to complete before deciding where to send the user.
-  // Without this, isAuthenticated is always false on first render, causing a redirect
-  // loop that consumes the single-use refresh token and logs the user out.
-  if (isLoading) return null;
-
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
+
 
   const {
     register,

@@ -38,8 +38,6 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  // Wait for the session check to complete before deciding
-  if (isLoading) return null;
 
   // Already authenticated — redirect to dashboard
   if (isAuthenticated) {
