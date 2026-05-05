@@ -2,7 +2,7 @@
 
 Full-stack market intelligence platform with real-time data, portfolio P&L tracking, and an AI analyst that actually knows your positions.
 
-Live demo: [crypto-lens-ai](https://crypto-lens-ai-ebon.vercel.app) &nbsp;·&nbsp; Demo login: `demo@cryptolens.dev` / `Demo1234`
+Live demo: [CryptoLens-AI](https://crypto-lens-ai-ebon.vercel.app) &nbsp;·&nbsp; Demo login: `demo@cryptolens.dev` / `Demo1234`
 
 ---
 
